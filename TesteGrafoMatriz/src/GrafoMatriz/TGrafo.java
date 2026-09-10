@@ -53,4 +53,94 @@ public class TGrafo {
 	    }
 	    System.out.println("\n\nfim da impressao do grafo." );
 	}
+
+	/ "Visita" o nó. Aqui apenas imprime, mas poderia ser
+	// qualquer outra operação sobre o vértice.
+	private void visitarNo(int v) {
+		System.out.print(v + " ");
+	}
+
+	// Marca o nó v como já visitado
+	private void marcarNo(boolean[] nosMarcados, int v) {
+		nosMarcados[v] = true;
+	}
+
+	// Procura, a partir do nó n, o PRIMEIRO nó adjacente
+	// ainda não marcado. Retorna -1 se não existir nenhum.
+	private int noAdjacente(int n, boolean[] nosMarcados) {
+		for (int w = 0; w < this.n; w++) {
+			if (adj[n][w] == 1 && !nosMarcados[w]) {
+				return w;
+			}
+		}
+		return -1;
+	}
+
+	// Percurso em Profundidade usa PILHA
+	// Baseado no algoritmo dos slides o roteiro tem que ser:
+	// 1. Visita-se um nó n previamente selecionado;
+	// 2. Marca o nó n;
+	// 3. Empilha n em uma pilha P;
+	// 4. Enquanto a pilha P não estiver vazia:
+	//    4.1 desempilha n;
+	//    4.2 enquanto existir m não marcado adjacente a n:
+	//        4.2.1 visita m;
+	//        4.2.2 empilha n;
+	//        4.2.3 marca m;
+	//        4.2.4 n <- m;
+	public void percursoProfundidade(int vInicio) {
+		boolean[] nosMarcados = new boolean[this.n];
+		Stack<Integer> p = new Stack<Integer>();
+		int n, m;
+
+		System.out.print("Percurso em profundidade a partir de " + vInicio + ": ");
+
+		visitarNo(vInicio);
+		marcarNo(nosMarcados, vInicio);
+		p.push(vInicio);
+
+		while (!p.isEmpty()) {
+			n = p.pop();
+			while ((m = noAdjacente(n, nosMarcados)) != -1) {
+				visitarNo(m);
+				p.push(n);
+				marcarNo(nosMarcados, m);
+				n = m;
+			}
+		}
+		System.out.println();
+	}
+
+	// Percurso em Largura usa FILA
+	// Baseado no algoritmo dos slides o roteiro tem que ser:
+	// 1. Visita-se um nó n previamente selecionado;
+	// 2. Marca o nó n;
+	// 3. Insere n em uma fila F;
+	// 4. Enquanto a fila F não estiver vazia:
+	//    4.1 retira um elemento da fila e atribui a n;
+	//    4.2 para cada m não marcado adjacente a n:
+	//        4.2.1 visita m;
+	//        4.2.2 insere m na fila;
+	//        4.2.3 marca m;
+	public void percursoLargura(int vInicio) {
+		boolean[] nosMarcados = new boolean[this.n];
+		Queue<Integer> f = new LinkedList<Integer>();
+		int n, m;
+
+		System.out.print("Percurso em largura a partir de " + vInicio + ": ");
+
+		visitarNo(vInicio);
+		marcarNo(nosMarcados, vInicio);
+		f.add(vInicio);
+
+		while (!f.isEmpty()) {
+			n = f.poll();
+			while ((m = noAdjacente(n, nosMarcados)) != -1) {
+				visitarNo(m);
+				f.add(m);
+				marcarNo(nosMarcados, m);
+			}
+		}
+		System.out.println();
+	}
 }
