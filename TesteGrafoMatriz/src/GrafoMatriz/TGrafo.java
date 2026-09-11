@@ -1,5 +1,9 @@
 package GrafoMatriz;
 
+import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
+
 //definição de uma estrutura Matriz de Adjacência para armezanar um grafo
 public class TGrafo {
 	// Atributos Privados
@@ -54,8 +58,7 @@ public class TGrafo {
 	    System.out.println("\n\nfim da impressao do grafo." );
 	}
 
-	/ "Visita" o nó. Aqui apenas imprime, mas poderia ser
-	// qualquer outra operação sobre o vértice.
+	// Visita o nó. Aqui apenas imprime
 	private void visitarNo(int v) {
 		System.out.print(v + " ");
 	}
